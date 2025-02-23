@@ -23,3 +23,34 @@ class RidesService {
   }
  
 }
+
+///
+/// Display available ride today
+///
+void main() {
+  DateTime today = DateTime.now();
+
+  List<Ride> todayRides = RidesService.availableRides.where((ride) {
+    DateTime rideDate = ride.departureDate; // Ensure departureDate is a DateTime object
+    return rideDate.year == today.year &&
+        rideDate.month == today.month &&
+        rideDate.day == today.day;
+  }).toList();
+
+  ///
+  /// Check condition if not empty, display all available rides for today
+  ///
+  if (todayRides.isNotEmpty) { 
+    print('Available rides for today:\n');
+    for (var ride in todayRides) { 
+      print('From: ${ride.departureLocation}');
+      print('To: ${ride.arrivalLocation}');
+      print('Date: ${ride.departureDate}');
+      print('Price: ${ride.pricePerSeat}€');
+      print('Driver: ${ride.driver}');
+      print('---------------------');
+    }
+  } else {
+    print('No rides available today.');
+  }
+}
