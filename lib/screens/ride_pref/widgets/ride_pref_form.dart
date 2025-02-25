@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:week_3_blabla_project/screens/date_select_screen.dart';
 import 'package:week_3_blabla_project/screens/location_search_screen.dart';
 import 'package:week_3_blabla_project/screens/ride_search_screen.dart';
 import 'package:week_3_blabla_project/screens/seat_select_screen.dart';
 import 'package:week_3_blabla_project/theme/theme.dart';
 import 'package:week_3_blabla_project/utils/animations_util.dart';
+import 'package:week_3_blabla_project/utils/date_time_util.dart';
 import 'package:week_3_blabla_project/widgets/actions/bla_button.dart';
 import 'package:week_3_blabla_project/widgets/display/bla_divider.dart';
 
@@ -272,8 +274,19 @@ class _RidePrefFormState extends State<RidePrefForm> {
   /// Implement the date selection field
   Widget _dateField() {
     return InkWell(
-      onTap: () {
-        // TODO: Implement date selection
+      onTap: () async {
+        // Navigate to DateSelectionScreen and wait for the selected date
+        final selectedDate = await Navigator.push<DateTime>(
+          context,
+          MaterialPageRoute(builder: (context) => const DateSelectionScreen()),
+        );
+
+        // Update the selected date if user picked a date
+        if (selectedDate != null) {
+          setState(() {
+            departureDate = selectedDate;
+          });
+        }
       },
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: BlaSpacings.s),
@@ -286,7 +299,7 @@ class _RidePrefFormState extends State<RidePrefForm> {
             ),
             const SizedBox(width: BlaSpacings.m),
             Text(
-              'Today',
+              DateTimeUtils.formatDateTime(departureDate), // Show selected date
               style: BlaTextStyles.body.copyWith(
                 color: BlaColors.textNormal,
               ),
