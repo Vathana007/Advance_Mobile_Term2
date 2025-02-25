@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:week_3_blabla_project/screens/location_search_screen.dart';
 import 'package:week_3_blabla_project/screens/ride_search_screen.dart';
+import 'package:week_3_blabla_project/screens/seat_select_screen.dart';
 import 'package:week_3_blabla_project/theme/theme.dart';
 import 'package:week_3_blabla_project/utils/animations_util.dart';
 import 'package:week_3_blabla_project/widgets/actions/bla_button.dart';
@@ -83,7 +84,7 @@ class _RidePrefFormState extends State<RidePrefForm> {
     }
   }
 
-// Handle to open LocationSearchScreen with Bottom-to-Top transition
+  // Handle to open LocationSearchScreen with Bottom-to-Top transition
   Future<void> _handleArrivalSelect() async {
     final selectedLocation = await Navigator.push<Location>(
       context,
@@ -199,89 +200,100 @@ class _RidePrefFormState extends State<RidePrefForm> {
       ),
     );
   }
-}
 
-// Implement a location selection field
-Widget _departureField({
-  required String label,
-  required Location? initialLocation,
-  required VoidCallback onTap,
-  required IconData icon,
-}) {
-  return InkWell(
-    onTap: onTap, // Call function when tap
-    child: Padding(
-      padding: const EdgeInsets.symmetric(vertical: BlaSpacings.s),
-      child: Row(
-        children: [
-          Icon(icon, color: BlaColors.neutralLight, size: 24),
-          const SizedBox(width: BlaSpacings.m),
-          Text(
-            initialLocation?.name ?? label,
-            style: BlaTextStyles.body.copyWith(
-              color: initialLocation != null
-                  ? BlaColors.textNormal
-                  : BlaColors.textLight,
-            ),
-          ),
-        ],
-      ),
-    ),
-  );
-}
+  // Implement the passenger count selection field
+  Widget _passengerField(dynamic requestedSeats) {
+    return InkWell(
+      onTap: () async {
+        // Navigate to SeatSelectionScreen and wait for selected seat count
+        final selectedSeats = await Navigator.push<int>(
+          context,
+          MaterialPageRoute(builder: (context) => const SeatSelectionScreen()),
+        );
 
-/// Implement the date selection field
-Widget _dateField() {
-  return InkWell(
-    onTap: () {
-      // TODO: Implement date selection
-    },
-    child: Padding(
-      padding: const EdgeInsets.symmetric(vertical: BlaSpacings.s),
-      child: Row(
-        children: [
-          Icon(
-            Icons.calendar_month_outlined,
-            color: BlaColors.neutralLight,
-            size: 24,
-          ),
-          const SizedBox(width: BlaSpacings.m),
-          Text(
-            'Today',
-            style: BlaTextStyles.body.copyWith(
-              color: BlaColors.textNormal,
+        // Update requestedSeats if user selected a value
+        if (selectedSeats != null) {
+          setState(() {
+            this.requestedSeats = selectedSeats;
+          });
+        }
+      },
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: BlaSpacings.s),
+        child: Row(
+          children: [
+            Icon(
+              Icons.person_outline,
+              color: BlaColors.neutralLight,
+              size: 24,
             ),
-          ),
-        ],
+            const SizedBox(width: BlaSpacings.m),
+            Text(
+              '$requestedSeats',
+              style: BlaTextStyles.body.copyWith(
+                color: BlaColors.textNormal,
+              ),
+            ),
+          ],
+        ),
       ),
-    ),
-  );
-}
+    );
+  }
 
-// Implement the passenger count selection field
-Widget _passengerField(dynamic requestedSeats) {
-  return InkWell(
-    onTap: () {
-      // TODO: Implement passenger selection
-    },
-    child: Padding(
-      padding: const EdgeInsets.symmetric(vertical: BlaSpacings.s),
-      child: Row(
-        children: [
-          Icon(
-            Icons.person_outline,
-            color: BlaColors.neutralLight,
-            size: 24,
-          ),
-          const SizedBox(width: BlaSpacings.m),
-          Text(
-            '$requestedSeats',
-            style: BlaTextStyles.body.copyWith(
-              color: BlaColors.textNormal,
+  // Implement a location selection field
+  Widget _departureField({
+    required String label,
+    required Location? initialLocation,
+    required VoidCallback onTap,
+    required IconData icon,
+  }) {
+    return InkWell(
+      onTap: onTap, // Call function when tap
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: BlaSpacings.s),
+        child: Row(
+          children: [
+            Icon(icon, color: BlaColors.neutralLight, size: 24),
+            const SizedBox(width: BlaSpacings.m),
+            Text(
+              initialLocation?.name ?? label,
+              style: BlaTextStyles.body.copyWith(
+                color: initialLocation != null
+                    ? BlaColors.textNormal
+                    : BlaColors.textLight,
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
-    ),
-  );
+    );
+  }
+
+  /// Implement the date selection field
+  Widget _dateField() {
+    return InkWell(
+      onTap: () {
+        // TODO: Implement date selection
+      },
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: BlaSpacings.s),
+        child: Row(
+          children: [
+            Icon(
+              Icons.calendar_month_outlined,
+              color: BlaColors.neutralLight,
+              size: 24,
+            ),
+            const SizedBox(width: BlaSpacings.m),
+            Text(
+              'Today',
+              style: BlaTextStyles.body.copyWith(
+                color: BlaColors.textNormal,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 }
