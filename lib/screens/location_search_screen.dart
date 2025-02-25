@@ -60,7 +60,7 @@ class _LocationSearchScreenState extends State<LocationSearchScreen> {
               height: 44,
               padding: const EdgeInsets.symmetric(horizontal: 8),
               decoration: BoxDecoration(
-                color: Colors.grey[200],
+                color: BlaColors.backgroundAccent,
                 borderRadius: BorderRadius.circular(12), // Rounded edges
               ),
               child: Row(
@@ -68,7 +68,7 @@ class _LocationSearchScreenState extends State<LocationSearchScreen> {
                   GestureDetector(
                     onTap: () => Navigator.pop(context),
                     child: Icon(Icons.arrow_back_ios_new,
-                        color: Colors.grey[500], size: 20),
+                        color: BlaColors.neutralLighter, size: 20),
                   ),
                   const SizedBox(width: 20),
                   Expanded(
@@ -85,8 +85,8 @@ class _LocationSearchScreenState extends State<LocationSearchScreen> {
                   if (_searchController.text.isNotEmpty)
                     GestureDetector(
                       onTap: () => _searchController.clear(),
-                      child: const Icon(Icons.close, color: Colors.grey),
-                    ),
+                      child: Icon(Icons.close, color: BlaColors.neutralLighter),
+                    ),  
                 ],
               ),
             ),
@@ -95,12 +95,12 @@ class _LocationSearchScreenState extends State<LocationSearchScreen> {
           // Search results
           Expanded(
             child: _searchController.text.isEmpty
-                ? const Center(
+                ? Center(
                     child: Padding(
-                      padding: EdgeInsets.all(16.0),
+                      padding: const EdgeInsets.all(16.0),
                       child: Text(
                         'Start typing to search for a location',
-                        style: TextStyle(color: Colors.grey, fontSize: 16),
+                        style: TextStyle(color: BlaColors.neutralLight, fontSize: 16),
                       ),
                     ),
                   )
@@ -114,8 +114,8 @@ class _LocationSearchScreenState extends State<LocationSearchScreen> {
                       return ListTile(
                         contentPadding: const EdgeInsets.symmetric(vertical: 4),
                         leading: index < 3
-                            ? const Icon(Icons.history, color: Colors.grey)
-                            : const Icon(Icons.location_on, color: Colors.grey),
+                            ? Icon(Icons.history, color: BlaColors.neutralLight)
+                            : Icon(Icons.location_on, color: BlaColors.neutralLight),
                         title: Text(
                           location.name,
                           style: const TextStyle(fontWeight: FontWeight.w500),
@@ -123,10 +123,10 @@ class _LocationSearchScreenState extends State<LocationSearchScreen> {
                         subtitle: Text(
                           location.country.name,
                           style:
-                              const TextStyle(fontSize: 14, color: Colors.grey),
+                              TextStyle(fontSize: 14, color: BlaColors.neutralLight),
                         ),
                         trailing:
-                            const Icon(Icons.chevron_right, color: Colors.grey),
+                            Icon(Icons.chevron_right, color: BlaColors.neutralLight),
                         onTap: () => Navigator.pop(context, location),
                       );
                     },

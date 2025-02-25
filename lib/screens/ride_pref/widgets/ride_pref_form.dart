@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:week_3_blabla_project/screens/location_search_screen.dart';
+import 'package:week_3_blabla_project/screens/ride_search_screen.dart';
 import 'package:week_3_blabla_project/theme/theme.dart';
 import 'package:week_3_blabla_project/utils/animations_util.dart';
 import 'package:week_3_blabla_project/widgets/actions/bla_button.dart';
@@ -44,10 +45,7 @@ class _RidePrefFormState extends State<RidePrefForm> {
   late int requestedSeats;
 
   /// Valid Form when both locations and date are selected
-  bool get _isFormFieldValid =>
-      departure != null &&
-      arrival != null &&
-      departureDate.isAfter(DateTime.now());
+  bool get _isFormFieldValid => departure != null && arrival != null;
 
   // ----------------------------------
   // Initialize the Form attributes
@@ -73,31 +71,30 @@ class _RidePrefFormState extends State<RidePrefForm> {
   // ----------------------------------
 
   // Handle to open LocationSearchScreen with Bottom-to-Top transition
-Future<void> _handleDepartureSelect() async {
-  final selectedLocation = await Navigator.push<Location>(
-    context,
-    AnimationUtils.createBottomToTopRoute(const LocationSearchScreen()),
-  );
-  if (selectedLocation != null) {
-    setState(() {
-      departure = selectedLocation;
-    });
+  Future<void> _handleDepartureSelect() async {
+    final selectedLocation = await Navigator.push<Location>(
+      context,
+      AnimationUtils.createBottomToTopRoute(const LocationSearchScreen()),
+    );
+    if (selectedLocation != null) {
+      setState(() {
+        departure = selectedLocation;
+      });
+    }
   }
-}
 
 // Handle to open LocationSearchScreen with Bottom-to-Top transition
-Future<void> _handleArrivalSelect() async {
-  final selectedLocation = await Navigator.push<Location>(
-    context,
-    AnimationUtils.createBottomToTopRoute(const LocationSearchScreen()),
-  );
-  if (selectedLocation != null) {
-    setState(() {
-      arrival = selectedLocation;
-    });
+  Future<void> _handleArrivalSelect() async {
+    final selectedLocation = await Navigator.push<Location>(
+      context,
+      AnimationUtils.createBottomToTopRoute(const LocationSearchScreen()),
+    );
+    if (selectedLocation != null) {
+      setState(() {
+        arrival = selectedLocation;
+      });
+    }
   }
-}
-
 
   void _handleDateSelect(DateTime date) {}
 
@@ -106,12 +103,25 @@ Future<void> _handleArrivalSelect() async {
   // Creates and submits a RidePref object when form is valid
   void _handleSubmit() {
     if (_isFormFieldValid) {
-      widget.onSubmit(RidePref(
-        departure: departure!,
-        arrival: arrival!,
-        departureDate: departureDate,
-        requestedSeats: requestedSeats,
-      ));
+      // Navigate to RideSearchScreen when form is valid
+      Navigator.push(
+        context,
+        AnimationUtils.createBottomToTopRoute(
+          RideSearchResultsScreen(
+            departure: departure!.name,
+            arrival: arrival!.name,
+            date: departureDate,
+            seats: requestedSeats,
+          ),
+        ),
+      );
+    } else {
+      // Show error message if form is invalid
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Please select departure and arrival locations'),
+        ),
+      );
     }
   }
 
@@ -133,7 +143,7 @@ Future<void> _handleArrivalSelect() async {
   // ----------------------------------
   // Build the widgets
   // ----------------------------------
-   @override
+  @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(BlaSpacings.m),
@@ -141,11 +151,26 @@ Future<void> _handleArrivalSelect() async {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           // Departure location field with correct onTap
-          _departureField(
-            label: 'Leaving from',
-            initialLocation: departure,
-            onTap: _handleDepartureSelect, // Pass function reference
-            icon: Icons.radio_button_checked_outlined,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              _departureField(
+                label: 'Leaving from',
+                initialLocation: departure,
+                onTap: _handleDepartureSelect, // Pass function reference
+                icon: Icons.radio_button_checked_outlined,
+              ),
+              // Add switch button between locations
+              Align(
+                alignment: Alignment.centerRight,
+                child: IconButton(
+                  icon: const Icon(Icons.swap_vert),
+                  onPressed: _handleLocationSwitch,
+                  color: BlaColors.neutralLight,
+                  tooltip: 'Switch locations',
+                ),
+              ),
+            ],
           ),
           const BlaDivider(),
 
@@ -168,7 +193,7 @@ Future<void> _handleArrivalSelect() async {
 
           BlaButton(
             label: 'Search',
-            onPressed: _isFormFieldValid ? _handleSubmit : () {},
+            onPressed: _handleSubmit,
           ),
         ],
       ),
@@ -180,7 +205,7 @@ Future<void> _handleArrivalSelect() async {
 Widget _departureField({
   required String label,
   required Location? initialLocation,
-  required VoidCallback onTap, 
+  required VoidCallback onTap,
   required IconData icon,
 }) {
   return InkWell(
@@ -194,7 +219,9 @@ Widget _departureField({
           Text(
             initialLocation?.name ?? label,
             style: BlaTextStyles.body.copyWith(
-              color: initialLocation != null ? BlaColors.textNormal : BlaColors.textLight,
+              color: initialLocation != null
+                  ? BlaColors.textNormal
+                  : BlaColors.textLight,
             ),
           ),
         ],
