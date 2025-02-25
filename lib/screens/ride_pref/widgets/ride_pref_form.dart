@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:week_3_blabla_project/screens/location_search_screen.dart';
 import 'package:week_3_blabla_project/theme/theme.dart';
 import 'package:week_3_blabla_project/widgets/actions/bla_button.dart';
 import 'package:week_3_blabla_project/widgets/display/bla_divider.dart';
@@ -70,9 +71,36 @@ class _RidePrefFormState extends State<RidePrefForm> {
   // Handle events
   // ----------------------------------
 
-  void _handleDepartureSelect(Location location) {}
+  // Handle to open LocationSearchScreen when "Leaving from" is tapped
+  Future<void> _handleDepartureSelect() async {
+    final selectedLocation = await Navigator.push<Location>(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const LocationSearchScreen(),
+      ),
+    );
+    if (selectedLocation != null) {
+      setState(() {
+        departure = selectedLocation;
+      });
+    }
+  }
 
-  void _handleArrivalSelect(Location location) {}
+  // Handle to opens LocationSearchScreen when "Going to" is tapped
+  Future<void> _handleArrivalSelect() async {
+    final selectedLocation = await Navigator.push<Location>(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const LocationSearchScreen(),
+      ),
+    );
+    if (selectedLocation != null) {
+      setState(() {
+        arrival = selectedLocation;
+      });
+    }
+  }
+
 
   void _handleDateSelect(DateTime date) {}
 
@@ -108,44 +136,28 @@ class _RidePrefFormState extends State<RidePrefForm> {
   // ----------------------------------
   // Build the widgets
   // ----------------------------------
-  @override
+   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(BlaSpacings.m),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          /// Departure Location Input
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              // Departure Input Field
-              _departureField(
-                label: 'Leaving from',
-                initialLocation: departure,
-                onLocationSelected: _handleDepartureSelect,
-                icon: Icons.radio_button_checked_outlined,
-              ),
-              // Add switch button between locations
-              Align(
-                alignment: Alignment.centerRight,
-                child: IconButton(
-                  icon: const Icon(Icons.swap_vert),
-                  onPressed: _handleLocationSwitch,
-                  color: BlaColors.neutralLight,
-                  tooltip: 'Switch locations',
-                ),
-              ),
-            ],
+          // Departure location field with correct onTap
+          _departureField(
+            label: 'Leaving from',
+            initialLocation: departure,
+            onTap: _handleDepartureSelect, // Pass function reference
+            icon: Icons.radio_button_checked_outlined,
           ),
           const BlaDivider(),
-          // Arrival location field
+
+          // Arrival location field with correct onTap
           _departureField(
             label: 'Going to',
             initialLocation: arrival,
-            onLocationSelected: _handleArrivalSelect,
-            icon: Icons.radio_button_checked_outlined,
+            onTap: _handleArrivalSelect, // Pass function reference
+            icon: Icons.location_on_outlined,
           ),
           const BlaDivider(),
 
@@ -157,11 +169,10 @@ class _RidePrefFormState extends State<RidePrefForm> {
           _passengerField(requestedSeats),
           const SizedBox(height: BlaSpacings.xl),
 
-          // Submit button
           BlaButton(
             label: 'Search',
-            onPressed: _handleSubmit,
-          )
+            onPressed: _isFormFieldValid ? _handleSubmit : () {},
+          ),
         ],
       ),
     );
@@ -172,29 +183,21 @@ class _RidePrefFormState extends State<RidePrefForm> {
 Widget _departureField({
   required String label,
   required Location? initialLocation,
-  required ValueChanged<Location> onLocationSelected,
+  required VoidCallback onTap, 
   required IconData icon,
 }) {
   return InkWell(
-    onTap: () {
-      // TODO: Implement on location selection
-    },
+    onTap: onTap, // Call function when tap
     child: Padding(
       padding: const EdgeInsets.symmetric(vertical: BlaSpacings.s),
       child: Row(
         children: [
-          Icon(
-            icon,
-            color: BlaColors.neutralLight,
-            size: 24,
-          ),
+          Icon(icon, color: BlaColors.neutralLight, size: 24),
           const SizedBox(width: BlaSpacings.m),
           Text(
             initialLocation?.name ?? label,
             style: BlaTextStyles.body.copyWith(
-              color: initialLocation != null
-                  ? BlaColors.textNormal
-                  : BlaColors.textLight,
+              color: initialLocation != null ? BlaColors.textNormal : BlaColors.textLight,
             ),
           ),
         ],
