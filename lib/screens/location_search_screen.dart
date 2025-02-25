@@ -59,7 +59,7 @@ class _LocationSearchScreenState extends State<LocationSearchScreen> {
         title: TextField(
           controller: _searchController,
           decoration: InputDecoration(
-            hintText: 'Enter a city',
+            hintText: 'Station Road or The Bridge Cafe',
             border: InputBorder.none,
           ),
           style: BlaTextStyles.body.copyWith(color: BlaColors.neutralDark),
@@ -85,7 +85,7 @@ class _LocationSearchScreenState extends State<LocationSearchScreen> {
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Text(
-                  'Start typing to search for a location',
+                  'Search for location',
                   style: TextStyle(
                     color: BlaColors.neutralLight,
                     fontSize: 16,
