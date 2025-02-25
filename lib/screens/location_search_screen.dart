@@ -33,7 +33,8 @@ class _LocationSearchScreenState extends State<LocationSearchScreen> {
     final query = _searchController.text.toLowerCase();
     setState(() {
       if (query.isEmpty) {
-        _filteredLocations = []; // Check to clear the list when search the list is empty
+        _filteredLocations =
+            []; // Check to clear the list when search the list is empty
       } else {
         _filteredLocations = fakeLocations.where((location) {
           return location.name.toLowerCase().startsWith(query) ||
@@ -50,79 +51,87 @@ class _LocationSearchScreenState extends State<LocationSearchScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: BlaColors.white,
-        leading: IconButton(
-          icon: Icon(Icons.chevron_left_sharp, color: BlaColors.neutralLight),
-          onPressed: () => Navigator.pop(context),
-        ),
-        title: TextField(
-          controller: _searchController,
-          decoration: InputDecoration(
-            hintText: 'Station Road or The Bridge Cafe',
-            border: InputBorder.none,
-          ),
-          style: BlaTextStyles.body.copyWith(color: BlaColors.neutralDark),
-          autofocus: true,
-        ),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.close, color: BlaColors.neutralLight),
-            onPressed: () {
-              if (_searchController.text.isEmpty) {
-                Navigator.pop(context);
-              } else {
-                _searchController.clear();
-              }
-            },
-          ),
-        ],
-      ),
       body: Column(
         children: [
-          if (_searchController.text.isEmpty)
-            Center(
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Text(
-                  'Search for location',
-                  style: TextStyle(
-                    color: BlaColors.neutralLight,
-                    fontSize: 16,
-                  ),
-                ),
+          Padding(
+            padding:
+                const EdgeInsets.only(top: 40, left: 16, right: 16, bottom: 10),
+            child: Container(
+              height: 44,
+              padding: const EdgeInsets.symmetric(horizontal: 8),
+              decoration: BoxDecoration(
+                color: Colors.grey[200],
+                borderRadius: BorderRadius.circular(12), // Rounded edges
               ),
-            )
-          else
-            Expanded(
-              child: ListView.separated(
-                itemCount: _filteredLocations.length,
-                separatorBuilder: (context, index) => Divider(height: 1),
-                itemBuilder: (context, index) {
-                  final location = _filteredLocations[index];
-                  return ListTile(
-                    leading: index < 3
-                        ? Icon(Icons.schedule, color: BlaColors.neutralLight)
-                        : null,
-                    title: Text(
-                      location.name,
-                      style: BlaTextStyles.body.copyWith(
-                        color: BlaColors.textNormal,
+              child: Row(
+                children: [
+                  GestureDetector(
+                    onTap: () => Navigator.pop(context),
+                    child: Icon(Icons.arrow_back_ios_new,
+                        color: Colors.grey[500], size: 20),
+                  ),
+                  const SizedBox(width: 20),
+                  Expanded(
+                    child: TextField(
+                      controller: _searchController,
+                      decoration: const InputDecoration(
+                        hintText: 'Search for a city',
+                        border: InputBorder.none,
                       ),
+                      style: const TextStyle(color: Colors.black),
+                      autofocus: true,
                     ),
-                    subtitle: Text(
-                      location.country.name,
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: Colors.grey[600],
-                      ),
+                  ),
+                  if (_searchController.text.isNotEmpty)
+                    GestureDetector(
+                      onTap: () => _searchController.clear(),
+                      child: const Icon(Icons.close, color: Colors.grey),
                     ),
-                    trailing: Icon(Icons.chevron_right, color: Colors.grey),
-                    onTap: () => Navigator.pop(context, location),
-                  );
-                },
+                ],
               ),
             ),
+          ),
+
+          // Search results
+          Expanded(
+            child: _searchController.text.isEmpty
+                ? const Center(
+                    child: Padding(
+                      padding: EdgeInsets.all(16.0),
+                      child: Text(
+                        'Start typing to search for a location',
+                        style: TextStyle(color: Colors.grey, fontSize: 16),
+                      ),
+                    ),
+                  )
+                : ListView.separated(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                    itemCount: _filteredLocations.length,
+                    separatorBuilder: (_, __) => const Divider(),
+                    itemBuilder: (context, index) {
+                      final location = _filteredLocations[index];
+                      return ListTile(
+                        contentPadding: const EdgeInsets.symmetric(vertical: 4),
+                        leading: index < 3
+                            ? const Icon(Icons.history, color: Colors.grey)
+                            : const Icon(Icons.location_on, color: Colors.grey),
+                        title: Text(
+                          location.name,
+                          style: const TextStyle(fontWeight: FontWeight.w500),
+                        ),
+                        subtitle: Text(
+                          location.country.name,
+                          style:
+                              const TextStyle(fontSize: 14, color: Colors.grey),
+                        ),
+                        trailing:
+                            const Icon(Icons.chevron_right, color: Colors.grey),
+                        onTap: () => Navigator.pop(context, location),
+                      );
+                    },
+                  ),
+          ),
         ],
       ),
     );
