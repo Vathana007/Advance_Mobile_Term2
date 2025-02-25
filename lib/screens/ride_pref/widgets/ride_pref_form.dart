@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:week_3_blabla_project/screens/location_search_screen.dart';
 import 'package:week_3_blabla_project/theme/theme.dart';
+import 'package:week_3_blabla_project/utils/animations_util.dart';
 import 'package:week_3_blabla_project/widgets/actions/bla_button.dart';
 import 'package:week_3_blabla_project/widgets/display/bla_divider.dart';
 
@@ -71,35 +72,31 @@ class _RidePrefFormState extends State<RidePrefForm> {
   // Handle events
   // ----------------------------------
 
-  // Handle to open LocationSearchScreen when "Leaving from" is tapped
-  Future<void> _handleDepartureSelect() async {
-    final selectedLocation = await Navigator.push<Location>(
-      context,
-      MaterialPageRoute(
-        builder: (context) => const LocationSearchScreen(),
-      ),
-    );
-    if (selectedLocation != null) {
-      setState(() {
-        departure = selectedLocation;
-      });
-    }
+  // Handle to open LocationSearchScreen with Bottom-to-Top transition
+Future<void> _handleDepartureSelect() async {
+  final selectedLocation = await Navigator.push<Location>(
+    context,
+    AnimationUtils.createBottomToTopRoute(const LocationSearchScreen()),
+  );
+  if (selectedLocation != null) {
+    setState(() {
+      departure = selectedLocation;
+    });
   }
+}
 
-  // Handle to opens LocationSearchScreen when "Going to" is tapped
-  Future<void> _handleArrivalSelect() async {
-    final selectedLocation = await Navigator.push<Location>(
-      context,
-      MaterialPageRoute(
-        builder: (context) => const LocationSearchScreen(),
-      ),
-    );
-    if (selectedLocation != null) {
-      setState(() {
-        arrival = selectedLocation;
-      });
-    }
+// Handle to open LocationSearchScreen with Bottom-to-Top transition
+Future<void> _handleArrivalSelect() async {
+  final selectedLocation = await Navigator.push<Location>(
+    context,
+    AnimationUtils.createBottomToTopRoute(const LocationSearchScreen()),
+  );
+  if (selectedLocation != null) {
+    setState(() {
+      arrival = selectedLocation;
+    });
   }
+}
 
 
   void _handleDateSelect(DateTime date) {}
