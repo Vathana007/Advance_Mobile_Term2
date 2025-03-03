@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:week_3_blabla_project/screens/ride_pref/widgets/date_select_screen.dart';
 import 'package:week_3_blabla_project/screens/ride_pref/widgets/ride_pref_input_tile.dart';
 import 'package:week_3_blabla_project/screens/ride_pref/widgets/seat_select_screen.dart';
+import 'package:week_3_blabla_project/service/locations_service.dart';
 import 'package:week_3_blabla_project/utils/date_time_util.dart';
 import 'package:week_3_blabla_project/widgets/inputs/bla_location_picker.dart';
 
@@ -27,12 +28,15 @@ class RidePrefForm extends StatefulWidget {
   // The form can be created with an optional initial RidePref.
   final RidePref? initRidePref;
 
+  final LocationsService locationsService;
+
   /// Callback triggered when form is submitted
   final Function(RidePref ridePref) onSubmit;
 
   const RidePrefForm({
     super.key,
     required this.initRidePref,
+    required this.locationsService,
     required this.onSubmit,
     RidePref? initialPreference,
   });
@@ -85,7 +89,7 @@ class _RidePrefFormState extends State<RidePrefForm> {
     // 1- Select a location
     Location? selectedLocation = await Navigator.of(context)
         .push<Location>(AnimationUtils.createBottomToTopRoute(BlaLocationPicker(
-      initLocation: departure,
+      locationsService: widget.locationsService,
     )));
 
     // 2- Update the from if needed
@@ -101,7 +105,7 @@ class _RidePrefFormState extends State<RidePrefForm> {
     // 1- Select a location
     Location? selectedLocation = await Navigator.of(context)
         .push<Location>(AnimationUtils.createBottomToTopRoute(BlaLocationPicker(
-      initLocation: arrival,
+      locationsService: widget.locationsService,
     )));
 
     // 2- Update the from if needed
@@ -256,84 +260,4 @@ class _RidePrefFormState extends State<RidePrefForm> {
       ),
     );
   }
-
-  // /// Builds the date selection field
-  // Widget _dateField() {
-  //   return InkWell(
-  //     onTap: () async {
-  //       final result = await Navigator.of(context).push<DateTime>(
-  //         AnimationUtils.createBottomToTopRoute(
-  //           DateSelectionScreen(initialDate: departureDate),
-  //         ),
-  //       );
-  //       if (result != null) {
-  //         onDatePressed();
-  //       }
-  //     },
-  //     child: Padding(
-  //       padding: const EdgeInsets.symmetric(vertical: BlaSpacings.s),
-  //       child: Row(
-  //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  //         children: [
-  //           Row(
-  //             children: [
-  //               Icon(
-  //                 Icons.calendar_month_outlined,
-  //                 color: BlaColors.neutralLight,
-  //                 size: 24,
-  //               ),
-  //               const SizedBox(width: BlaSpacings.m),
-  //               DateDisplay(
-  //                 date: departureDate,
-  //                 isToday: departureDate.year == DateTime.now().year &&
-  //                     departureDate.month == DateTime.now().month &&
-  //                     departureDate.day == DateTime.now().day,
-  //               ),
-  //             ],
-  //           ),
-  //         ],
-  //       ),
-  //     ),
-  //   );
-  // }
-
-  /// Builds the passenger count selection field
-  // Widget _passengerField() {
-  //   return InkWell(
-  //     onTap: () async {
-  //       final result = await Navigator.of(context).push<int>(
-  //         AnimationUtils.createBottomToTopRoute(
-  //           SeatSelectionScreen(initialSeats: requestedSeats),
-  //         ),
-  //       );
-  //       if (result != null) {
-  //         onSeatsPressed();
-  //       }
-  //     },
-  //     child: Padding(
-  //       padding: const EdgeInsets.symmetric(vertical: BlaSpacings.s),
-  //       child: Row(
-  //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  //         children: [
-  //           Row(
-  //             children: [
-  //               Icon(
-  //                 Icons.person_outline,
-  //                 color: BlaColors.neutralLight,
-  //                 size: 24,
-  //               ),
-  //               const SizedBox(width: BlaSpacings.m),
-  //               Text(
-  //                 '$requestedSeats',
-  //                 style: BlaTextStyles.body.copyWith(
-  //                   color: BlaColors.textNormal,
-  //                 ),
-  //               ),
-  //             ],
-  //           ),
-  //         ],
-  //       ),
-  //     ),
-  //   );
-  // }
 }
