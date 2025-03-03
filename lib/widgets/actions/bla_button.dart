@@ -13,7 +13,7 @@ class BlaButton extends StatelessWidget {
     required this.label,
     required this.onPressed,
     this.isPrimary = true,
-    this.icon,
+    this.icon, required RoundedRectangleBorder shape,
   });
 
   @override
@@ -58,7 +58,10 @@ class BlaButtonTestScreen extends StatelessWidget {
             label: 'Contact Volodia',
             onPressed: () => _onButtonPressed('Contact Volodia'),
             isPrimary: false,
-            icon: Icons.chat,
+            icon: Icons.chat, 
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(BlaSpacings.radius),
+            ),
           ),
           const SizedBox(height: BlaSpacings.m),
           BlaButton(
@@ -66,6 +69,9 @@ class BlaButtonTestScreen extends StatelessWidget {
             onPressed: () => _onButtonPressed('Request to Book'),
             isPrimary: true,
             icon: Icons.calendar_today,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(BlaSpacings.radius),
+            ),
           ),
         ],
       ),

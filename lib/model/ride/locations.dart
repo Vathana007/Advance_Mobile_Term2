@@ -36,6 +36,8 @@
 
     // Get location through to ride_pref_form
     static getAllLocations() {}
+
+  static Location? copy(Location location) {}
   }
 
   ///

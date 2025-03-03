@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:week_3_blabla_project/theme/theme.dart';
 
 class SeatSelectionScreen extends StatefulWidget {
-  const SeatSelectionScreen({super.key});
+  const SeatSelectionScreen({super.key, required int initialSeats});
 
   @override
   State<SeatSelectionScreen> createState() => _SeatSelectionScreenState();

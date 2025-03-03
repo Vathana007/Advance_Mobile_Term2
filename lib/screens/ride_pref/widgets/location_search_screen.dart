@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../model/ride/locations.dart';
-import '../../dummy_data/dummy_data.dart';
-import '../../theme/theme.dart';
+import '../../../../model/ride/locations.dart';
+import '../../../../dummy_data/dummy_data.dart';
+import '../../../../theme/theme.dart';
 
 class LocationSearchScreen extends StatefulWidget {
   final String? initialQuery;
