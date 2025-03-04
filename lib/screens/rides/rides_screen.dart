@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:week_3_blabla_project/screens/ride_pref/widgets/ride_pref_form.dart';
 import 'package:week_3_blabla_project/screens/rides/widgets/ride_pref_bar.dart';
-
-import '../../dummy_data/dummy_data.dart';
+import 'package:week_3_blabla_project/service/locations_service.dart';
+import 'package:week_3_blabla_project/service/ride_prefs_service.dart';
 import '../../model/ride/ride.dart';
 import '../../model/ride_pref/ride_pref.dart';
 import '../../service/rides_service.dart';
@@ -21,27 +22,45 @@ class RidesScreen extends StatefulWidget {
 }
 
 class _RidesScreenState extends State<RidesScreen> {
-  RidePref currentPreference =
-      fakeRidePrefs[0]; // TODO 1 :  We should get it from the service
+  RidePref currentPreference = RidePrefService.instance.currentPreference!;
+  RidesFilter filter = RidesFilter(acceptPets: true);
 
-  List<Ride> get matchingRides => RidesService.getRidesFor(currentPreference);
+  List<Ride> get matchingRides =>
+      RidesService.instance.getRidesFor(currentPreference, filter);
 
   void onBackPressed() {
     Navigator.of(context).pop(); //  Back to the previous view
   }
 
   void onPreferencePressed() async {
-    // TODO  6 : we should push the modal with the current pref
+    // Open the RidePrefForm and wait for the user to submit new preferences
+    final newPref = await Navigator.of(context).push<RidePref>(
+      MaterialPageRoute(
+        builder: (context) => RidePrefForm(
+          initRidePref:
+              currentPreference, // Pass the current preference to the form
+          locationsService: LocationsService.instance,
+          onSubmit: (RidePref newPreference) {
+            // Return the new preference when the user submits the form
+            Navigator.of(context).pop(newPreference);
+          },
+        ),
+      ),
+    );
 
-    // TODO 9 :  After pop, we should get the new current pref from the modal
-
-    // TODO 10 :  Then we should update the service current pref,   and update the view
+    // If the user submitted a new preference, update the state
+    if (newPref != null) {
+      setState(() {
+        currentPreference = newPref; // Update the current preference
+      });
+    }
   }
 
   void onFilterPressed() {}
 
   @override
   Widget build(BuildContext context) {
+    print(matchingRides.length);
     return Scaffold(
         body: Padding(
       padding: const EdgeInsets.only(

@@ -155,7 +155,7 @@ class _RidePrefFormState extends State<RidePrefForm> {
           arrival: arrival!,
           requestedSeats: requestedSeats);
 
-      // 3 - Callback withg the new preference
+      // 3 - Callback with the new preference
       widget.onSubmit(newPreference);
     }
   }

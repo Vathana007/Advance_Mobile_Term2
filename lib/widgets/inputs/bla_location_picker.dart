@@ -193,7 +193,7 @@ class _BlaSearchBarState extends State<BlaSearchBar> {
               controller: _controller,
               style: TextStyle(color: BlaColors.textLight),
               decoration: InputDecoration(
-                hintText: "Station Road or The Brigth Cafe",
+                hintText: "Any City or Street",
                 border: InputBorder.none, // No border
                 filled: false, // No background fill
               ),

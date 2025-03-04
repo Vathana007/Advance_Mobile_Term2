@@ -1,3 +1,5 @@
+import 'package:week_3_blabla_project/service/rides_service.dart';
+
 import '../model/ride/locations.dart';
 import '../model/ride/ride.dart';
 import '../model/ride_pref/ride_pref.dart';
@@ -170,6 +172,7 @@ List<Ride> fakeRides = List.generate(50, (index) {
   double pricePerSeat = (random.nextDouble() * 20 + 5)
       .roundToDouble(); // Price between 5€ and 25€
 
+  RidesFilter acceptPets = RidesFilter(acceptPets: random.nextBool());
   return Ride(
     departureLocation: departureLocation,
     departureDate: departureTime,
@@ -178,5 +181,6 @@ List<Ride> fakeRides = List.generate(50, (index) {
     driver: driver,
     availableSeats: availableSeats,
     pricePerSeat: pricePerSeat,
+    acceptPets: acceptPets,
   );
 });
