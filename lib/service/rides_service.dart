@@ -1,5 +1,4 @@
 import 'package:week_3_blabla_project/model/ride_pref/ride_pref.dart';
-
 import '../dummy_data/dummy_data.dart';
 import '../model/ride/ride.dart';
 
@@ -8,7 +7,8 @@ import '../model/ride/ride.dart';
 ///   - The list of available rides
 ///
 class RidesService {
-  static List<Ride> availableRides = fakeRides; // TODO for now fake data
+  static List<Ride> availableRides = fakeRides; 
+  // TODO for now fake data
 
   ///
   ///  Return the relevant rides, given the passenger preferences
@@ -23,6 +23,12 @@ class RidesService {
             ride.arrivalLocation == preferences.arrival)
         .toList();
   }
+}
+
+class RidesFilter {
+  final bool acceptPets;
+
+  RidesFilter({required this.acceptPets}); 
 }
 
 void main() {

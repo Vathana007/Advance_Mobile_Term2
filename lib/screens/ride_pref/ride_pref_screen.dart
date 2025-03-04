@@ -45,7 +45,7 @@ class _RidePrefScreenState extends State<RidePrefScreen> {
   @override
     void initState() {
       super.initState();
-      locationsService = LocationsService(LocationsRepository);
+      locationsService = LocationsService.instance;
     }
 
   @override

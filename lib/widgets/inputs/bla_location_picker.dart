@@ -7,10 +7,9 @@ import '../../theme/theme.dart';
 /// This full-screen modal is in charge of providing (if confirmed) a selected location.
 ///
 class BlaLocationPicker extends StatefulWidget {
-  final LocationsService
-      locationsService; // The picker can be triguer with an existing location name
+  // final LocationsService locationsService; // The picker can be triguer with an existing location name
 
-  const BlaLocationPicker({super.key, required this.locationsService});
+  // const BlaLocationPicker({super.key, required this.locationsService});
 
   @override
   State<BlaLocationPicker> createState() => _BlaLocationPickerState();
@@ -27,7 +26,7 @@ class _BlaLocationPickerState extends State<BlaLocationPicker> {
   void initState() {
     super.initState();
 
-    filteredLocations = widget.locationsService.getLocations();
+    filteredLocations = LocationsService.instance.getLocations();
   }
 
   void onBackSelected() {
@@ -47,7 +46,7 @@ class _BlaLocationPickerState extends State<BlaLocationPicker> {
     // }
 
     setState(() {
-      filteredLocations = widget.locationsService
+      filteredLocations = LocationsService.instance
           .getLocations()
           .where((location) =>
               location.name.toUpperCase().startsWith(searchText.toUpperCase()))

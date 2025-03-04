@@ -87,10 +87,8 @@ class _RidePrefFormState extends State<RidePrefForm> {
   // Handle to open LocationSearchScreen with Bottom-to-Top transition
   void onDeparturePressed() async {
     // 1- Select a location
-    Location? selectedLocation = await Navigator.of(context)
-        .push<Location>(AnimationUtils.createBottomToTopRoute(BlaLocationPicker(
-      locationsService: widget.locationsService,
-    )));
+    Location? selectedLocation = await Navigator.of(context).push<Location>(
+        AnimationUtils.createBottomToTopRoute(BlaLocationPicker()));
 
     // 2- Update the from if needed
     if (selectedLocation != null) {
@@ -103,10 +101,8 @@ class _RidePrefFormState extends State<RidePrefForm> {
   // Handle to open LocationSearchScreen with Bottom-to-Top transition
   void onArrivalPressed() async {
     // 1- Select a location
-    Location? selectedLocation = await Navigator.of(context)
-        .push<Location>(AnimationUtils.createBottomToTopRoute(BlaLocationPicker(
-      locationsService: widget.locationsService,
-    )));
+    Location? selectedLocation = await Navigator.of(context).push<Location>(
+        AnimationUtils.createBottomToTopRoute(BlaLocationPicker()));
 
     // 2- Update the from if needed
     if (selectedLocation != null) {
@@ -119,7 +115,8 @@ class _RidePrefFormState extends State<RidePrefForm> {
   // Handle on Dtte Selection
   void onDatePressed() async {
     final result = await Navigator.of(context).push<DateTime>(
-      AnimationUtils.createBottomToTopRoute(DateSelectionScreen(initialDate: departureDate)),
+      AnimationUtils.createBottomToTopRoute(
+          DateSelectionScreen(initialDate: departureDate)),
     );
 
     if (result != null) {
@@ -132,7 +129,8 @@ class _RidePrefFormState extends State<RidePrefForm> {
   // Handle on Seat Selection
   void onSeatsPressed() async {
     final result = await Navigator.of(context).push<int>(
-      AnimationUtils.createBottomToTopRoute(SeatSelectionScreen(initialSeats: requestedSeats)),
+      AnimationUtils.createBottomToTopRoute(
+          SeatSelectionScreen(initialSeats: requestedSeats)),
     );
 
     if (result != null) {
@@ -141,6 +139,7 @@ class _RidePrefFormState extends State<RidePrefForm> {
       });
     }
   }
+
   /// Creates and submits a RidePref object when form is valid
   void onSubmit() {
     // 1- Check input validity
