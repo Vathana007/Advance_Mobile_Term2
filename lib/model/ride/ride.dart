@@ -24,7 +24,7 @@ class Ride {
   final double pricePerSeat;
   RideStatus status = RideStatus.created;
   final List<User> passengers = [];
-  final RidesFilter acceptPets;
+  final bool acceptPets;
 
   Ride( {
     required this.departureLocation,

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:week_3_blabla_project/repository/locations_repository.dart';
 import 'package:week_3_blabla_project/repository/mock/mock_location_repository.dart';
 import 'package:week_3_blabla_project/screens/rides/rides_screen.dart';
 import 'package:week_3_blabla_project/service/locations_service.dart';

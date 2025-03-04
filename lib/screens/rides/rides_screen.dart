@@ -25,8 +25,11 @@ class _RidesScreenState extends State<RidesScreen> {
   RidePref currentPreference = RidePrefService.instance.currentPreference!;
   RidesFilter filter = RidesFilter(acceptPets: true);
 
+  // Modified using the instance 
   List<Ride> get matchingRides =>
       RidesService.instance.getRidesFor(currentPreference, filter);
+
+      
 
   void onBackPressed() {
     Navigator.of(context).pop(); //  Back to the previous view
