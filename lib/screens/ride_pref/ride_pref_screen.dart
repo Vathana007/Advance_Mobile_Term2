@@ -78,7 +78,7 @@ class _RidePrefScreenState extends State<RidePrefScreen> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   // 2.1 Display the Form to input the ride preferences
-                  RidePrefForm(initialPreference: currentRidePreference, onSubmit: onRidePrefSelected, initRidePref: null, locationsService: locationsService,),
+                  RidePrefForm(initialPreference: currentRidePreference, onSubmit: onRidePrefSelected, initRidePref: null, ),
                   SizedBox(height: BlaSpacings.m),
 
                   // 2.2 Optionally display a list of past preferences

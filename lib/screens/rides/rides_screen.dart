@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:week_3_blabla_project/screens/ride_pref/widgets/ride_pref_form.dart';
 import 'package:week_3_blabla_project/screens/rides/widgets/ride_pref_bar.dart';
-import 'package:week_3_blabla_project/service/locations_service.dart';
+import 'package:week_3_blabla_project/screens/rides/widgets/ride_pref_modal.dart';
 import 'package:week_3_blabla_project/service/ride_prefs_service.dart';
 import '../../model/ride/ride.dart';
 import '../../model/ride_pref/ride_pref.dart';
@@ -25,31 +24,43 @@ class _RidesScreenState extends State<RidesScreen> {
   RidePref currentPreference = RidePrefService.instance.currentPreference!;
   RidesFilter filter = RidesFilter(acceptPets: true);
 
-  // Modified using the instance 
+  // Modified using the instance
   List<Ride> get matchingRides =>
       RidesService.instance.getRidesFor(currentPreference, filter);
-
-      
 
   void onBackPressed() {
     Navigator.of(context).pop(); //  Back to the previous view
   }
 
+  // void onPreferencePressed() async {
+  //   // Open the RidePrefForm and wait for the user to submit new preferences
+  //   final newPref = await Navigator.of(context).push<RidePref>(
+  //     MaterialPageRoute(
+  //       builder: (context) => RidePrefForm(
+  //         initRidePref:
+  //             currentPreference, // Pass the current preference to the form
+  //         locationsService: LocationsService.instance,
+  //         onSubmit: (RidePref newPreference) {
+  //           // Return the new preference when the user submits the form
+  //           Navigator.of(context).pop(newPreference);
+  //         },
+  //       ),
+  //     ),
+  //   );
+
   void onPreferencePressed() async {
     // Open the RidePrefForm and wait for the user to submit new preferences
-    final newPref = await Navigator.of(context).push<RidePref>(
-      MaterialPageRoute(
-        builder: (context) => RidePrefForm(
-          initRidePref:
-              currentPreference, // Pass the current preference to the form
-          locationsService: LocationsService.instance,
-          onSubmit: (RidePref newPreference) {
-            // Return the new preference when the user submits the form
-            Navigator.of(context).pop(newPreference);
-          },
-        ),
-      ),
-    );
+    final newPref = await showModalBottomSheet<RidePref>(
+        context: context,
+        isDismissible: true,
+        builder: (ctx) => RidePrefModal(
+            initialPreference: currentPreference,
+            onSubmit: (newPreference) {
+              setState(() {
+                currentPreference = newPreference;
+                RidePrefService.instance.setCurrentPreference(newPreference);
+              });
+            }));
 
     // If the user submitted a new preference, update the state
     if (newPref != null) {

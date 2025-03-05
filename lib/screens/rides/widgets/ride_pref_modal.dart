@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:week_3_blabla_project/service/locations_service.dart';
 import 'package:week_3_blabla_project/widgets/actions/bla_icon_button.dart';
-
 import '../../../model/ride_pref/ride_pref.dart';
 import '../../../theme/theme.dart';
 import '../../ride_pref/widgets/ride_pref_form.dart';
 
 class RidePrefModal extends StatefulWidget {
-  final LocationsService locationsService;
+  final RidePref? initialPreference;
+  final Function(RidePref) onSubmit;
+  
   const RidePrefModal({
     super.key,
-    required this.locationsService
-    // TODO 7 : We should pass the current prefs to this moda;
+    required this.initialPreference,
+    required this.onSubmit,
   });
 
   @override
@@ -24,7 +24,8 @@ class _RidePrefModalState extends State<RidePrefModal> {
   }
 
   void onSubmit(RidePref newPreference) {
-    // TODO 9 : We should pop this modal, with the new current preference
+    widget.onSubmit(newPreference);
+    Navigator.of(context).pop();
   }
 
   @override
@@ -52,10 +53,8 @@ class _RidePrefModalState extends State<RidePrefModal> {
               child: Padding(
             padding: const EdgeInsets.all(10),
             child: RidePrefForm(
-              initRidePref:
-                  null, // TODO 7 : The form should be displayed with the modal current prefs
+              initRidePref: widget.initialPreference,
               onSubmit: onSubmit,
-              locationsService: widget.locationsService,
             ),
           )),
         ],

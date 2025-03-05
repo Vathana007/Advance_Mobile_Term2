@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:week_3_blabla_project/screens/ride_pref/widgets/date_select_screen.dart';
 import 'package:week_3_blabla_project/screens/ride_pref/widgets/ride_pref_input_tile.dart';
 import 'package:week_3_blabla_project/screens/ride_pref/widgets/seat_select_screen.dart';
-import 'package:week_3_blabla_project/service/locations_service.dart';
 import 'package:week_3_blabla_project/utils/date_time_util.dart';
 import 'package:week_3_blabla_project/widgets/inputs/bla_location_picker.dart';
 
@@ -10,10 +9,8 @@ import '../../../model/ride/locations.dart';
 import '../../../model/ride_pref/ride_pref.dart';
 import '../../../widgets/display/bla_divider.dart';
 import '../../../widgets/actions/bla_button.dart';
-//import 'date_picker.dart';
 import '../../../theme/theme.dart';
 import '../../../utils/animations_util.dart';
-//import 'seat_number_spinner.dart';
 
 ///
 /// A Ride Preference From is a view to select:
@@ -28,7 +25,7 @@ class RidePrefForm extends StatefulWidget {
   // The form can be created with an optional initial RidePref.
   final RidePref? initRidePref;
 
-  final LocationsService locationsService;
+  // final LocationsService locationsService;
 
   /// Callback triggered when form is submitted
   final Function(RidePref ridePref) onSubmit;
@@ -36,7 +33,6 @@ class RidePrefForm extends StatefulWidget {
   const RidePrefForm({
     super.key,
     required this.initRidePref,
-    required this.locationsService,
     required this.onSubmit,
     RidePref? initialPreference,
   });
