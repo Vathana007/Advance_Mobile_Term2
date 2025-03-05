@@ -26,7 +26,7 @@ class _RidesScreenState extends State<RidesScreen> {
 
   // Modified using the instance
   List<Ride> get matchingRides =>
-      RidesService.instance.getRidesFor(currentPreference, filter);
+      RidesService.instance.getRidesFor(currentPreference, filter, null);
 
   void onBackPressed() {
     Navigator.of(context).pop(); //  Back to the previous view

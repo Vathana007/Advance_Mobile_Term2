@@ -1,3 +1,4 @@
+import 'package:week_3_blabla_project/model/ride/ride_sort.dart';
 import 'package:week_3_blabla_project/model/ride_pref/ride_pref.dart';
 import 'package:week_3_blabla_project/repository/ride_repository.dart';
 
@@ -38,8 +39,8 @@ class RidesService {
   ///
   ///  Return the relevant rides, given the passenger preferences
   ///
-  List<Ride> getRidesFor(RidePref preferences, RidesFilter? filter) {
-    return instance.repository.getRides(preferences, filter);
+  List<Ride> getRidesFor(RidePref preferences, RidesFilter? filter, RideSort? sort) {
+    return instance.repository.getRides(preferences, filter, null);
   }
 }
 

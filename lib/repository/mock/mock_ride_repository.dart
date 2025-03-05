@@ -1,5 +1,6 @@
 import 'package:week_3_blabla_project/model/ride/locations.dart';
 import 'package:week_3_blabla_project/model/ride/ride.dart';
+import 'package:week_3_blabla_project/model/ride/ride_sort.dart';
 import 'package:week_3_blabla_project/model/ride_pref/ride_pref.dart';
 import 'package:week_3_blabla_project/model/user/user.dart';
 import 'package:week_3_blabla_project/repository/ride_repository.dart';
@@ -7,7 +8,7 @@ import 'package:week_3_blabla_project/service/rides_service.dart';
 
 class MockRidesRepository extends RidesRepository {
   @override
-  List<Ride> getRides(RidePref preference, RidesFilter? filter) {
+  List<Ride> getRides(RidePref preference, RidesFilter? filter, RideSort? sort) {
     // Mock users
     User kannika = User(
       firstName: "Kannika",
@@ -115,11 +116,11 @@ class MockRidesRepository extends RidesRepository {
     ];
 
     // Filter the rides based on the preferences and filters
-    return _getFilteredRides(rides, preference, filter);
+    return _getFilteredRides(rides, preference, filter, sort);
   }
 
   // Main method to filter rides
-  List<Ride> _getFilteredRides(List<Ride> rides, RidePref preference, RidesFilter? filter) {
+  List<Ride> _getFilteredRides(List<Ride> rides, RidePref preference, RidesFilter? filter, RideSort? sort) {
   return rides.where((ride) {
     bool isValidLocation = _checkLocation(ride, preference);
     bool isValidDate = _checkDate(ride, preference);
